@@ -1,14 +1,17 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
+import { MoviesService } from './movies.service';
 
 @Controller('movies')
 export class MoviesController {
+    constructor(private readonly moviesService: MoviesService) {}
     @Get()
-    getAllMovies(): string {
-        return 'This action returns all movies';
+    getAllMovies(@Query('movie')Movie:string): string {
+        return this.moviesService.getAllMovies(Movie);
     }
+
 
     @Get(':id')
     getOne(@Param('id')movieId:number):string{
-        return `This action returns one movie with id ${movieId}`;
+        return this.moviesService.getMovie(movieId);
     }
 }
